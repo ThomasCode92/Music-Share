@@ -1,7 +1,12 @@
-# Vue 3 + Vite
+# Music Share
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Upload your favorite music to _Music Share_ so you can... share it!
+
+The _'Music Share'_ App is a [Single Page Application](https://vuejs.org/guide/extras/ways-of-using-vue.html#single-page-application-spa) written in [VueJS](https://vuejs.org/) and it uses a build setup based on [Vite](https://vitejs.dev/).<br />
+This setup allow the use of Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html)!<br />
+It's a project of the _[Complete Vue Developer](https://www.udemy.com/course/complete-vue-js-developer-zero-to-mastery-vuex/)_ course by [ZTM](https://zerotomastery.io/).
 
 ## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[Visual Studio Code](https://code.visualstudio.com/) with the [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension.<br />
+(Please make sure you don't have Vetur installed. If you have it installed, you can disable Vetur.)
