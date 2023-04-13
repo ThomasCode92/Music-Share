@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "pinia": "^2.0.33",
+    "vee-validate": "^4.8.4",
     "vue": "^3.2.45"
   },
   "devDependencies": {

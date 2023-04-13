@@ -1393,6 +1393,13 @@ util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
+vee-validate@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.8.4.tgz#d7687b4c43db953f614432a39dbf53d56fc133c8"
+  integrity sha512-wlLBy50t4EMEin5oqxS2mxpqW02TkIsk0H3LcivLztNJKKLW17hpPSQtQnn8wjDLoWWZ/CVOfep6aw77aCAavg==
+  dependencies:
+    "@vue/devtools-api" "^6.5.0"
+
 vite@^4.0.0:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/vite/-/vite-4.0.4.tgz#4612ce0b47bbb233a887a54a4ae0c6e240a0da31"
