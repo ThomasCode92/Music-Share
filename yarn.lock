@@ -189,6 +189,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@vee-validate/rules@^4.8.4":
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.8.4.tgz#016ad992725114f5f0c19c412a9206499de6e3b8"
+  integrity sha512-GTtE4XdCMl2xDZDyUmIemALN5oK1giMEh0KqwUipZcCjypLKLXuxjF3M6KFSTOeyY+0o+i4xAzcmuhutsfSi7A==
+  dependencies:
+    vee-validate "^4.8.4"
+
 "@vitejs/plugin-vue@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-4.0.0.tgz#93815beffd23db46288c787352a8ea31a0c03e5e"
@@ -1392,6 +1399,13 @@ util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+vee-validate@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.8.4.tgz#d7687b4c43db953f614432a39dbf53d56fc133c8"
+  integrity sha512-wlLBy50t4EMEin5oqxS2mxpqW02TkIsk0H3LcivLztNJKKLW17hpPSQtQnn8wjDLoWWZ/CVOfep6aw77aCAavg==
+  dependencies:
+    "@vue/devtools-api" "^6.5.0"
 
 vite@^4.0.0:
   version "4.0.4"
