@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -10,6 +10,17 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
 
-export default app;
+const auth = getAuth(firebaseApp);
+
+// Register a User with Email and Password
+const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export default {
+  createAuthUserWithEmailAndPassword,
+};

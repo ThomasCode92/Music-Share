@@ -109,6 +109,8 @@
 </template>
 
 <script>
+import firebase from '../includes/firebase';
+
 export default {
   name: 'RegisterForm',
   data() {
@@ -132,18 +134,23 @@ export default {
     };
   },
   methods: {
-    register(values) {
+    async register(values) {
       this.registration_show_alert = true;
       this.registration_in_submission = true;
       this.registration_alert_variant = 'bg-blue-500';
       this.registration_alert_message =
         'Please wait! Your account is being created.';
 
+      const userCredentials = await firebase.createAuthUserWithEmailAndPassword(
+        values.email,
+        values.password
+      );
+
       this.registration_alert_variant = 'bg-green-500';
       this.registration_alert_message =
         'Success! Your account has been created.';
 
-      console.log(values);
+      console.log('credentials', userCredentials);
     },
   },
 };
