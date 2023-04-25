@@ -21,6 +21,8 @@ export default defineStore('user', {
         country: values.country,
       });
 
+      await firebase.updateUserProfile(values.name);
+
       this.userLoggedIn = true;
     },
   },

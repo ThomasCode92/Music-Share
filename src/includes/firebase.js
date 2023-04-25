@@ -1,5 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -37,7 +41,14 @@ const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
+const updateUserProfile = async displayName => {
+  await updateProfile(auth.currentUser, {
+    displayName: displayName,
+  });
+};
+
 export default {
   createAuthUserWithEmailAndPassword,
   createUserDocument,
+  updateUserProfile,
 };
