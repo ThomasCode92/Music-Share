@@ -157,6 +157,23 @@ export default {
         return;
       }
 
+      try {
+        firebase.createUserDocument({
+          id: userCredentials.user.uid,
+          name: values.name,
+          email: values.email,
+          age: values.age,
+          country: values.country,
+        });
+      } catch (error) {
+        this.registration_in_submission = false;
+        this.registration_alert_variant = 'bg-red-500';
+        this.registration_alert_message =
+          'An unexpected error occured! Please try again later.';
+
+        return;
+      }
+
       this.registration_alert_variant = 'bg-green-500';
       this.registration_alert_message =
         'Success! Your account has been created.';

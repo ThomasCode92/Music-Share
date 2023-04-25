@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,7 +14,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(firebaseApp);
+
+// Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(firebaseApp);
+
+// Add a new document in collection "users"
+const createUserDocument = async userData => {
+  const userDocRef = doc(db, 'users', userData.id);
+  await setDoc(userDocRef, {
+    name: userData.name,
+    email: userData.email,
+    age: userData.age,
+    country: userData.country,
+  });
+};
 
 // Register a User with Email and Password
 const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -23,4 +39,5 @@ const createAuthUserWithEmailAndPassword = async (email, password) => {
 
 export default {
   createAuthUserWithEmailAndPassword,
+  createUserDocument,
 };
