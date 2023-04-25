@@ -141,10 +141,21 @@ export default {
       this.registration_alert_message =
         'Please wait! Your account is being created.';
 
-      const userCredentials = await firebase.createAuthUserWithEmailAndPassword(
-        values.email,
-        values.password
-      );
+      let userCredentials;
+
+      try {
+        userCredentials = await firebase.createAuthUserWithEmailAndPassword(
+          values.email,
+          values.password
+        );
+      } catch (error) {
+        this.registration_in_submission = false;
+        this.registration_alert_variant = 'bg-red-500';
+        this.registration_alert_message =
+          'An unexpected error occured! Please try again later.';
+
+        return;
+      }
 
       this.registration_alert_variant = 'bg-green-500';
       this.registration_alert_message =
