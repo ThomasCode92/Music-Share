@@ -109,9 +109,8 @@
 </template>
 
 <script>
-import { mapWritableState } from 'pinia';
+import { mapActions } from 'pinia';
 
-import firebase from '../includes/firebase';
 import useUserStore from '../stores/user';
 
 export default {
@@ -136,10 +135,8 @@ export default {
       registration_alert_message: 'Please wait! Your account is being created.',
     };
   },
-  computed: {
-    ...mapWritableState(useUserStore, ['userLoggedIn']),
-  },
   methods: {
+    ...mapActions(useUserStore, { createUser: 'register' }),
     async register(values) {
       this.registration_show_alert = true;
       this.registration_in_submission = true;
@@ -147,13 +144,8 @@ export default {
       this.registration_alert_message =
         'Please wait! Your account is being created.';
 
-      let userCredentials;
-
       try {
-        userCredentials = await firebase.createAuthUserWithEmailAndPassword(
-          values.email,
-          values.password
-        );
+        await this.createUser(values);
       } catch (error) {
         this.registration_in_submission = false;
         this.registration_alert_variant = 'bg-red-500';
@@ -162,32 +154,10 @@ export default {
 
         return;
       }
-
-      try {
-        firebase.createUserDocument({
-          id: userCredentials.user.uid,
-          name: values.name,
-          email: values.email,
-          age: values.age,
-          country: values.country,
-        });
-      } catch (error) {
-        this.registration_in_submission = false;
-        this.registration_alert_variant = 'bg-red-500';
-        this.registration_alert_message =
-          'An unexpected error occured! Please try again later.';
-
-        return;
-      }
-
-      this.userLoggedIn = true;
 
       this.registration_alert_variant = 'bg-green-500';
       this.registration_alert_message =
         'Success! Your account has been created.';
-
-      console.log('credentials', userCredentials);
-      console.log('userLoggedIn', useUserStore.userLoggedIn);
     },
   },
 };
