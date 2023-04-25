@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import firebase from '../includes/firebase';
 
 export default defineStore('user', {
-  stata: () => ({
+  state: () => ({
     userLoggedIn: false,
   }),
   actions: {

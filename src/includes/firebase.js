@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
@@ -23,6 +24,11 @@ const db = getFirestore(firebaseApp);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(firebaseApp);
+
+// Set an observer on the Auth object
+export const onAuthStateChangedListener = callback => {
+  return onAuthStateChanged(auth, callback);
+};
 
 // Add a new document in collection "users"
 const createUserDocument = async userData => {
@@ -50,5 +56,6 @@ const updateUserProfile = async displayName => {
 export default {
   createAuthUserWithEmailAndPassword,
   createUserDocument,
+  onAuthStateChangedListener,
   updateUserProfile,
 };
