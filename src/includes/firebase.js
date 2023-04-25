@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
@@ -47,6 +48,11 @@ const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
+const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
 const updateUserProfile = async displayName => {
   await updateProfile(auth.currentUser, {
     displayName: displayName,
@@ -57,5 +63,6 @@ export default {
   createAuthUserWithEmailAndPassword,
   createUserDocument,
   onAuthStateChangedListener,
+  signInAuthUserWithEmailAndPassword,
   updateUserProfile,
 };

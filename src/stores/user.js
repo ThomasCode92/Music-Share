@@ -25,5 +25,13 @@ export default defineStore('user', {
 
       this.userLoggedIn = true;
     },
+    async authenticate(values) {
+      await firebase.signInAuthUserWithEmailAndPassword(
+        values.email,
+        values.password
+      );
+
+      this.userLoggedIn = true;
+    },
   },
 });
