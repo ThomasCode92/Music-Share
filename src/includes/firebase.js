@@ -4,6 +4,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
@@ -48,9 +49,15 @@ const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
+// Log a User In with Email and Password
 const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
+};
+
+// Log a User Out
+const singOutAuthUser = async () => {
+  return await signOut(auth);
 };
 
 const updateUserProfile = async displayName => {
@@ -64,5 +71,6 @@ export default {
   createUserDocument,
   onAuthStateChangedListener,
   signInAuthUserWithEmailAndPassword,
+  singOutAuthUser,
   updateUserProfile,
 };

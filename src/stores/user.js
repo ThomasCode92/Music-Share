@@ -22,16 +22,15 @@ export default defineStore('user', {
       });
 
       await firebase.updateUserProfile(values.name);
-
-      this.userLoggedIn = true;
     },
     async authenticate(values) {
       await firebase.signInAuthUserWithEmailAndPassword(
         values.email,
         values.password
       );
-
-      this.userLoggedIn = true;
+    },
+    async signOut() {
+      await firebase.singOutAuthUser();
     },
   },
 });

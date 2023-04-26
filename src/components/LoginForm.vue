@@ -81,6 +81,8 @@ export default {
 
       this.login_alert_variant = 'bg-green-500';
       this.login_alert_message = 'Success! You are logged in successfully.';
+
+      window.location.reload();
     },
   },
 };

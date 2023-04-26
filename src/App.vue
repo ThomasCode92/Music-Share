@@ -293,9 +293,9 @@ export default {
 
       if (user) {
         this.userLoggedIn = true;
+      } else {
+        this.userLoggedIn = false;
       }
-
-      this.userLoggedIn = false;
     });
   },
 };
