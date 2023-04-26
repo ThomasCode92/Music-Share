@@ -6,11 +6,21 @@ import './assets/base.css';
 import './assets/main.css';
 
 import VeeValidatePlugin from './includes/validation';
+import firebase from './includes/firebase';
 
-const pinia = createPinia();
-const app = createApp(App);
+let vueApp;
 
-app.use(pinia);
-app.use(VeeValidatePlugin);
+// Initializing Firebase before Vue
+firebase.onAuthStateChangedListener(() => {
+  if (!vueApp) {
+    const app = createApp(App);
+    const pinia = createPinia();
 
-app.mount('#app');
+    app.use(pinia);
+    app.use(VeeValidatePlugin);
+
+    app.mount('#app');
+
+    vueApp = app;
+  }
+});
