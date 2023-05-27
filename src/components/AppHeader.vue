@@ -22,7 +22,9 @@
           </li>
           <template v-else>
             <li>
-              <a class="px-2 text-white" href="#">Manage</a>
+              <router-link class="px-2 text-white" to="manage">
+                Manage
+              </router-link>
             </li>
             <li>
               <a
