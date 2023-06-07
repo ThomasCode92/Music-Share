@@ -181,7 +181,7 @@
 import useUserStore from '../stores/user';
 
 export default {
-  name: 'AppManage',
+  name: 'ManageMusic',
   beforeRouteEnter(to, from, next) {
     const store = useUserStore();
 
