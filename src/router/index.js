@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import useUserStore from '../stores/user';
 import routes from './routes';
 
 const router = createRouter({
@@ -9,10 +10,17 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('Global Guard');
-  console.log(to, from);
+  if (!to.meta.requiresAuth) {
+    return next();
+  }
 
-  next();
+  const store = useUserStore();
+
+  if (store.userLoggedIn) {
+    next();
+  } else {
+    next({ name: 'home' });
+  }
 });
 
 export default router;

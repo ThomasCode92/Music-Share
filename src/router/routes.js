@@ -8,6 +8,7 @@ const routes = [
     path: '/manage-music',
     name: 'manage',
     component: ManageMusic,
+    meta: { requiresAuth: true },
     beforeEnter: (to, from, next) => {
       console.log('Manage Route Guard');
       next();
