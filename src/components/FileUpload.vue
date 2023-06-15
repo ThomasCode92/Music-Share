@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import firebase from '../includes/firebase';
+
 export default {
   name: 'FileUpload',
   data() {
@@ -74,6 +76,10 @@ export default {
 
       filesArray.forEach(file => {
         if (file.type !== 'audio/mpeg') return;
+
+        firebase.uploadFile('songs', file).then(snapshot => {
+          console.log('Uploaded a File');
+        });
       });
     },
   },

@@ -8,6 +8,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -26,6 +27,9 @@ const db = getFirestore(firebaseApp);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(firebaseApp);
+
+// Initialize Cloud Storage and get a reference to the service
+const storage = getStorage(firebaseApp);
 
 // Set an observer on the Auth object
 export const onAuthStateChangedListener = callback => {
@@ -60,10 +64,17 @@ const singOutAuthUser = async () => {
   return await signOut(auth);
 };
 
+// Update a User Profile
 const updateUserProfile = async displayName => {
   await updateProfile(auth.currentUser, {
     displayName: displayName,
   });
+};
+
+// Upload a File, file must come from the JavaScript File API'
+const uploadFile = async (folder, file) => {
+  const storageRef = ref(storage, folder + '/' + file.name);
+  return await uploadBytes(storageRef, file);
 };
 
 export default {
@@ -73,4 +84,5 @@ export default {
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
   updateUserProfile,
+  uploadFile,
 };
