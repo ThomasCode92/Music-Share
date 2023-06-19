@@ -53,7 +53,6 @@ export default {
   methods: {
     uploadFile($event) {
       this.is_dragover = false;
-      console.log('File dropped');
 
       const { files } = $event.dataTransfer;
       const filesArray = [...files];
@@ -62,9 +61,8 @@ export default {
         if (file.type !== 'audio/mpeg') return;
 
         const uploadTask = firebase.uploadFile('songs', file);
-        console.log('Uploading a File');
 
-        this.uploads.push({
+        const arrayLength = this.uploads.push({
           task: uploadTask,
           current_progress: 0,
           name: file.name,
@@ -74,8 +72,8 @@ export default {
           const { bytesTransferred, totalBytes } = snapshot;
           const progress = (bytesTransferred / totalBytes) * 100;
 
-          console.log(snapshot);
-          console.log(progress);
+          const uploadIndex = arrayLength - 1;
+          this.uploads[uploadIndex].current_progress = progress;
         });
       });
     },
