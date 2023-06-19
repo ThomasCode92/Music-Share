@@ -3,6 +3,7 @@
   "inlineFold.autoFold": false,
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
+  "prettier.configPath": "./node_modules/prettier",
 
   // IDE Config
   "editor.defaultFormatter": "esbenp.prettier-vscode",

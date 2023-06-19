@@ -17,38 +17,21 @@
         @dragover.prevent.stop="is_dragover = true"
         @dragenter.prevent.stop="is_dragover = true"
         @dragleave.prevent.stop="is_dragover = false"
-        @drop.prevent.stop="upload($event)"
+        @drop.prevent.stop="uploadFile($event)"
       >
         <h5>Drop your files here</h5>
       </div>
       <hr class="my-6" />
-      <!-- Progess Bars -->
-      <div class="mb-4">
+      <!-- Progress Bars -->
+      <div v-for="upload in uploads" :key="upload.name" class="mb-4">
         <!-- File Name -->
-        <div class="font-bold text-sm">Just another song.mp3</div>
+        <div class="font-bold text-sm">{{ upload.name }}</div>
         <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
           <!-- Inner Progress Bar -->
           <div
             class="transition-all progress-bar bg-blue-400"
-            style="width: 75%"
-          ></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div
-            class="transition-all progress-bar bg-blue-400"
-            style="width: 35%"
-          ></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div
-            class="transition-all progress-bar bg-blue-400"
-            style="width: 55%"
+            :class="'bg-blue-400'"
+            :style="{ width: upload.current_progress + '%' }"
           ></div>
         </div>
       </div>
@@ -64,10 +47,11 @@ export default {
   data() {
     return {
       is_dragover: false,
+      uploads: [],
     };
   },
   methods: {
-    upload($event) {
+    uploadFile($event) {
       this.is_dragover = false;
       console.log('File dropped');
 
@@ -77,8 +61,21 @@ export default {
       filesArray.forEach(file => {
         if (file.type !== 'audio/mpeg') return;
 
-        firebase.uploadFile('songs', file).then(snapshot => {
-          console.log('Uploaded a File');
+        const uploadTask = firebase.uploadFile('songs', file);
+        console.log('Uploading a File');
+
+        this.uploads.push({
+          task: uploadTask,
+          current_progress: 0,
+          name: file.name,
+        });
+
+        uploadTask.on('state_changed', snapshot => {
+          const { bytesTransferred, totalBytes } = snapshot;
+          const progress = (bytesTransferred / totalBytes) * 100;
+
+          console.log(snapshot);
+          console.log(progress);
         });
       });
     },

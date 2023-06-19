@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -72,9 +72,9 @@ const updateUserProfile = async displayName => {
 };
 
 // Upload a File, file must come from the JavaScript File API'
-const uploadFile = async (folder, file) => {
+const uploadFile = (folder, file) => {
   const storageRef = ref(storage, folder + '/' + file.name);
-  return await uploadBytes(storageRef, file);
+  return uploadBytesResumable(storageRef, file);
 };
 
 export default {
