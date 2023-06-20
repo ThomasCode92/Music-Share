@@ -59,11 +59,6 @@ export default {
   computed: {
     ...mapState(useUserStore, ['currentUser']),
   },
-  beforeUnmount() {
-    this.uploads.forEach(upload => {
-      upload.task.cancel();
-    });
-  },
   methods: {
     uploadFile($event) {
       this.is_dragover = false;
@@ -125,6 +120,11 @@ export default {
             this.uploads[uploadIndex].text_class = 'text-green-400';
           }
         );
+      });
+    },
+    cancelUploads() {
+      this.uploads.forEach(upload => {
+        upload.task.cancel();
       });
     },
   },
