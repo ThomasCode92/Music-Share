@@ -21,6 +21,7 @@
       >
         <h5>Drop your files here</h5>
       </div>
+      <input type="file" multiple @change="uploadFile($event)" />
       <hr class="my-6" />
       <!-- Progress Bars -->
       <div v-for="upload in uploads" :key="upload.name" class="mb-4">
@@ -62,10 +63,11 @@ export default {
     uploadFile($event) {
       this.is_dragover = false;
 
-      const { files } = $event.dataTransfer;
-      const filesArray = [...files];
+      const { files } = $event.dataTransfer
+        ? $event.dataTransfer
+        : $event.target;
 
-      filesArray.forEach(file => {
+      [...files].forEach(file => {
         if (file.type !== 'audio/mpeg') return;
 
         const uploadTask = firebase.uploadFile('songs', file);
