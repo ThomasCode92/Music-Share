@@ -73,13 +73,30 @@ export default {
           text_class: '',
         });
 
-        uploadTask.on('state_changed', snapshot => {
-          const { bytesTransferred, totalBytes } = snapshot;
-          const progress = (bytesTransferred / totalBytes) * 100;
+        uploadTask.on(
+          'state_changed',
+          snapshot => {
+            const { bytesTransferred, totalBytes } = snapshot;
+            const progress = (bytesTransferred / totalBytes) * 100;
 
-          const uploadIndex = arrayLength - 1;
-          this.uploads[uploadIndex].current_progress = progress;
-        });
+            const uploadIndex = arrayLength - 1;
+            this.uploads[uploadIndex].current_progress = progress;
+          },
+          error => {
+            const uploadIndex = arrayLength - 1;
+            this.uploads[uploadIndex].variant = 'bg-red-400';
+            this.uploads[uploadIndex].icon = 'fas fa-times';
+            this.uploads[uploadIndex].text_class = 'text-red-400';
+
+            console.log(error);
+          },
+          () => {
+            const uploadIndex = arrayLength - 1;
+            this.uploads[uploadIndex].variant = 'bg-green-400';
+            this.uploads[uploadIndex].icon = 'fas fa-check';
+            this.uploads[uploadIndex].text_class = 'text-green-400';
+          }
+        );
       });
     },
   },
