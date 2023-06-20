@@ -42,7 +42,10 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+
 import firebase from '../includes/firebase';
+import useUserStore from '../stores/user';
 
 export default {
   name: 'FileUpload',
@@ -51,6 +54,9 @@ export default {
       is_dragover: false,
       uploads: [],
     };
+  },
+  computed: {
+    ...mapState(useUserStore, ['currentUser']),
   },
   methods: {
     uploadFile($event) {
@@ -90,7 +96,22 @@ export default {
 
             console.log(error);
           },
-          () => {
+          async () => {
+            const song = {
+              userId: this.currentUser.uid,
+              display_name: this.currentUser.displayName,
+              original_name: uploadTask.snapshot.ref.name,
+              modified_name: uploadTask.snapshot.ref.name,
+              genre: '',
+              comment_count: 0,
+            };
+
+            const fileRef = uploadTask.snapshot.ref;
+            const downloadUrl = await firebase.getPublicUrl(fileRef);
+            song.url = downloadUrl;
+
+            await firebase.createSongsDocument(song);
+
             const uploadIndex = arrayLength - 1;
             this.uploads[uploadIndex].variant = 'bg-green-400';
             this.uploads[uploadIndex].icon = 'fas fa-check';

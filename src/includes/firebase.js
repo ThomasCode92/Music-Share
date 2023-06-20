@@ -7,8 +7,19 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import {
+  addDoc,
+  collection,
+  doc,
+  getFirestore,
+  setDoc,
+} from 'firebase/firestore';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -47,6 +58,12 @@ const createUserDocument = async userData => {
   });
 };
 
+// Add a new document in collection "songs"
+const createSongsDocument = async song => {
+  const songsCollection = collection(db, 'songs');
+  await addDoc(songsCollection, song);
+};
+
 // Register a User with Email and Password
 const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -77,10 +94,17 @@ const uploadFile = (folder, file) => {
   return uploadBytesResumable(storageRef, file);
 };
 
+// Get the Download URL for a specific File
+const getPublicUrl = async fileRef => {
+  return await getDownloadURL(fileRef);
+};
+
 export default {
   createAuthUserWithEmailAndPassword,
+  createSongsDocument,
   createUserDocument,
   onAuthStateChangedListener,
+  getPublicUrl,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
   updateUserProfile,
