@@ -15,6 +15,7 @@ import {
   getFirestore,
   query,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import {
@@ -108,6 +109,15 @@ const getUserSongs = async userId => {
   return await getDocs(q);
 };
 
+// Update a Song Document in the Songs Collection
+const updateSong = async (songId, newName, newGenre) => {
+  const songRef = doc(db, 'songs', songId);
+  await updateDoc(songRef, {
+    modified_name: newName,
+    genre: newGenre,
+  });
+};
+
 export default {
   createAuthUserWithEmailAndPassword,
   createSongsDocument,
@@ -117,6 +127,7 @@ export default {
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
+  updateSong,
   updateUserProfile,
   uploadFile,
 };
