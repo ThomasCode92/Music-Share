@@ -146,11 +146,23 @@ export default {
     this.$refs.upload.cancelUploads();
     next();
   },
+  data() {
+    return {
+      songs: [],
+    };
+  },
   computed: {
     ...mapState(useUserStore, ['currentUser']),
   },
   async created() {
     const querySnapshot = await firebase.getUserSongs(this.currentUser.uid);
+
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      const song = { docId: doc.id, ...data };
+
+      this.songs.push(song);
+    });
   },
 };
 </script>

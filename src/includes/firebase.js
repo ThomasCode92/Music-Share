@@ -104,7 +104,7 @@ const getPublicUrl = async fileRef => {
 
 // Retrieve all Song Documents for a given UserId
 const getUserSongs = async userId => {
-  const q = query(collection(db, 'songs'), where('uid', '==', userId));
+  const q = query(collection(db, 'songs'), where('userId', '==', userId));
   return await getDocs(q);
 };
 
