@@ -132,7 +132,12 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+
 import FileUpload from '../components/FileUpload.vue';
+
+import firebase from '../includes/firebase';
+import useUserStore from '../stores/user';
 
 export default {
   name: 'ManageMusic',
@@ -140,6 +145,12 @@ export default {
   beforeRouteLeave(to, from, next) {
     this.$refs.upload.cancelUploads();
     next();
+  },
+  computed: {
+    ...mapState(useUserStore, ['currentUser']),
+  },
+  async created() {
+    const querySnapshot = await firebase.getUserSongs(this.currentUser.uid);
   },
 };
 </script>

@@ -11,8 +11,11 @@ import {
   addDoc,
   collection,
   doc,
+  getDocs,
   getFirestore,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import {
   getDownloadURL,
@@ -99,12 +102,19 @@ const getPublicUrl = async fileRef => {
   return await getDownloadURL(fileRef);
 };
 
+// Retrieve all Song Documents for a given UserId
+const getUserSongs = async userId => {
+  const q = query(collection(db, 'songs'), where('uid', '==', userId));
+  return await getDocs(q);
+};
+
 export default {
   createAuthUserWithEmailAndPassword,
   createSongsDocument,
   createUserDocument,
   onAuthStateChangedListener,
   getPublicUrl,
+  getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
   updateUserProfile,
