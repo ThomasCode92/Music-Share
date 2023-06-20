@@ -59,6 +59,11 @@ export default {
   computed: {
     ...mapState(useUserStore, ['currentUser']),
   },
+  beforeUnmount() {
+    this.uploads.forEach(upload => {
+      upload.task.cancel();
+    });
+  },
   methods: {
     uploadFile($event) {
       this.is_dragover = false;
