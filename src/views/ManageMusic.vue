@@ -3,7 +3,7 @@
   <section class="container mx-auto mt-6">
     <div class="md:grid md:grid-cols-3 md:gap-4">
       <div class="col-span-1">
-        <file-upload ref="upload" />
+        <file-upload ref="upload" :add-song="addSong" />
       </div>
       <div class="col-span-2">
         <div
@@ -58,15 +58,15 @@ export default {
   },
   async created() {
     const querySnapshot = await firebase.getUserSongs(this.currentUser.uid);
-
-    querySnapshot.forEach(doc => {
+    querySnapshot.forEach(this.addSong);
+  },
+  methods: {
+    addSong(doc) {
       const data = doc.data();
       const song = { docId: doc.id, ...data };
 
       this.songs.push(song);
-    });
-  },
-  methods: {
+    },
     updateSong(idx, values) {
       this.songs[idx].modified_name = values.modified_name;
       this.songs[idx].genre = values.genre;

@@ -12,6 +12,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -64,10 +65,11 @@ const createUserDocument = async userData => {
   });
 };
 
-// Add a new document in collection "songs"
+// Add a new document in Collection "songs" and return the document
 const createSongsDocument = async song => {
   const songsCollection = collection(db, 'songs');
-  await addDoc(songsCollection, song);
+  const songDocRef = await addDoc(songsCollection, song);
+  return await getDoc(songDocRef);
 };
 
 // Register a User with Email and Password

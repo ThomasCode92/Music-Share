@@ -50,6 +50,7 @@ import useUserStore from '../stores/user';
 
 export default {
   name: 'FileUpload',
+  props: { addSong: { type: Function, required: true } },
   data() {
     return {
       is_dragover: false,
@@ -112,7 +113,8 @@ export default {
             const downloadUrl = await firebase.getPublicUrl(fileRef);
             song.url = downloadUrl;
 
-            await firebase.createSongsDocument(song);
+            const songSnapshot = await firebase.createSongsDocument(song);
+            this.addSong(songSnapshot);
 
             const uploadIndex = arrayLength - 1;
             this.uploads[uploadIndex].variant = 'bg-green-400';
