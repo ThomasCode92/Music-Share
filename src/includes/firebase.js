@@ -107,6 +107,12 @@ const getPublicUrl = async fileRef => {
   return await getDownloadURL(fileRef);
 };
 
+// Retrieve all Song Documetns
+const getAllSongs = async () => {
+  const q = query(collection(db, 'songs'));
+  return await getDocs(q);
+};
+
 // Retrieve all Song Documents for a given UserId
 const getUserSongs = async userId => {
   const q = query(collection(db, 'songs'), where('userId', '==', userId));
@@ -136,6 +142,7 @@ export default {
   createUserDocument,
   deleteSong,
   onAuthStateChangedListener,
+  getAllSongs,
   getPublicUrl,
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
