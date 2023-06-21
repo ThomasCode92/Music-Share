@@ -53,16 +53,18 @@ export default {
   name: 'App',
   components: { AppHeader, AppAuth },
   computed: {
-    ...mapWritableState(useUserStore, ['userLoggedIn']),
+    ...mapWritableState(useUserStore, ['userLoggedIn', 'currentUser']),
   },
   created() {
-    firebase.onAuthStateChangedListener(user => {
-      console.log(user);
+    firebase.onAuthStateChangedListener(userImpl => {
+      console.log(userImpl);
 
-      if (user) {
+      if (userImpl) {
         this.userLoggedIn = true;
+        this.currentUser = userImpl.auth.currentUser;
       } else {
         this.userLoggedIn = false;
+        this.currentUser = null;
       }
     });
   },

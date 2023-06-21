@@ -5,6 +5,7 @@ import firebase from '../includes/firebase';
 export default defineStore('user', {
   state: () => ({
     userLoggedIn: false,
+    currentUser: null,
   }),
   actions: {
     async register(values) {

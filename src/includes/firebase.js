@@ -7,7 +7,26 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -27,6 +46,9 @@ const db = getFirestore(firebaseApp);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(firebaseApp);
 
+// Initialize Cloud Storage and get a reference to the service
+const storage = getStorage(firebaseApp);
+
 // Set an observer on the Auth object
 export const onAuthStateChangedListener = callback => {
   return onAuthStateChanged(auth, callback);
@@ -41,6 +63,13 @@ const createUserDocument = async userData => {
     age: userData.age,
     country: userData.country,
   });
+};
+
+// Add a new document in Collection "songs" and return the document
+const createSongsDocument = async song => {
+  const songsCollection = collection(db, 'songs');
+  const songDocRef = await addDoc(songsCollection, song);
+  return await getDoc(songDocRef);
 };
 
 // Register a User with Email and Password
@@ -60,17 +89,58 @@ const singOutAuthUser = async () => {
   return await signOut(auth);
 };
 
+// Update a User Profile
 const updateUserProfile = async displayName => {
   await updateProfile(auth.currentUser, {
     displayName: displayName,
   });
 };
 
+// Upload a File, file must come from the JavaScript File API'
+const uploadFile = (folder, file) => {
+  const storageRef = ref(storage, folder + '/' + file.name);
+  return uploadBytesResumable(storageRef, file);
+};
+
+// Get the Download URL for a specific File
+const getPublicUrl = async fileRef => {
+  return await getDownloadURL(fileRef);
+};
+
+// Retrieve all Song Documents for a given UserId
+const getUserSongs = async userId => {
+  const q = query(collection(db, 'songs'), where('userId', '==', userId));
+  return await getDocs(q);
+};
+
+// Update a Song Document in the Songs Collection
+const updateSong = async (songId, newName, newGenre) => {
+  const songDoc = doc(db, 'songs', songId);
+  await updateDoc(songDoc, {
+    modified_name: newName,
+    genre: newGenre,
+  });
+};
+
+// Delete a Song Document in the Songs Collection & Remove it from the File Storage
+const deleteSong = async song => {
+  const songDoc = doc(db, 'songs', song.docId);
+  const fileRef = ref(storage, 'songs/' + song.original_name);
+  await deleteDoc(songDoc);
+  await deleteObject(fileRef);
+};
+
 export default {
   createAuthUserWithEmailAndPassword,
+  createSongsDocument,
   createUserDocument,
+  deleteSong,
   onAuthStateChangedListener,
+  getPublicUrl,
+  getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
+  updateSong,
   updateUserProfile,
+  uploadFile,
 };
