@@ -24,6 +24,7 @@
               :update-song="updateSong"
               :remove-song="removeSong"
               :index="idx"
+              :update-unsaved-flag="updateUnsavedFlag"
             />
           </div>
         </div>
@@ -46,11 +47,21 @@ export default {
   components: { FileUpload, CompositionItem },
   beforeRouteLeave(to, from, next) {
     this.$refs.upload.cancelUploads();
-    next();
+
+    if (!this.unsavedFlag) {
+      next();
+    } else {
+      const leave = confirm(
+        'You have unsaved changes. Are you sure you want to leave?'
+      );
+
+      next(leave);
+    }
   },
   data() {
     return {
       songs: [],
+      unsavedFlag: false,
     };
   },
   computed: {
@@ -73,6 +84,9 @@ export default {
     },
     removeSong(idx) {
       this.songs.splice(idx, 1);
+    },
+    updateUnsavedFlag(value) {
+      this.unsavedFlag = value;
     },
   },
 };
