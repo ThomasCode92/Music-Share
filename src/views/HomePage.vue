@@ -53,11 +53,31 @@ export default {
     };
   },
   async created() {
-    const snapshots = await firebase.getAllSongs();
+    this.getSongs();
 
-    snapshots.forEach(document => {
-      this.songs.push({ docId: document.id, ...document.data() });
-    });
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      const { innerHeight } = window;
+
+      const bottomOfView = Math.round(scrollTop) + innerHeight === offsetHeight;
+
+      if (bottomOfView) {
+        console.log('Bottom of window');
+      }
+    },
+    async getSongs() {
+      const snapshots = await firebase.getAllSongs();
+
+      snapshots.forEach(document => {
+        this.songs.push({ docId: document.id, ...document.data() });
+      });
+    },
   },
 };
 </script>
