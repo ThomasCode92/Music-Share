@@ -10,6 +10,7 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   getFirestore,
@@ -19,6 +20,7 @@ import {
   where,
 } from 'firebase/firestore';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -111,17 +113,26 @@ const getUserSongs = async userId => {
 
 // Update a Song Document in the Songs Collection
 const updateSong = async (songId, newName, newGenre) => {
-  const songRef = doc(db, 'songs', songId);
-  await updateDoc(songRef, {
+  const songDoc = doc(db, 'songs', songId);
+  await updateDoc(songDoc, {
     modified_name: newName,
     genre: newGenre,
   });
+};
+
+// Delete a Song Document in the Songs Collection & Remove it from the File Storage
+const deleteSong = async song => {
+  const songDoc = doc(db, 'songs', song.docId);
+  const fileRef = ref(storage, 'songs/' + song.original_name);
+  await deleteDoc(songDoc);
+  await deleteObject(fileRef);
 };
 
 export default {
   createAuthUserWithEmailAndPassword,
   createSongsDocument,
   createUserDocument,
+  deleteSong,
   onAuthStateChangedListener,
   getPublicUrl,
   getUserSongs,

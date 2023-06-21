@@ -22,6 +22,7 @@
               :key="song.docId"
               :song="song"
               :update-song="updateSong"
+              :remove-song="removeSong"
               :index="idx"
             />
           </div>
@@ -69,6 +70,9 @@ export default {
     updateSong(idx, values) {
       this.songs[idx].modified_name = values.modified_name;
       this.songs[idx].genre = values.genre;
+    },
+    removeSong(idx) {
+      this.songs.splice(idx, 1);
     },
   },
 };
