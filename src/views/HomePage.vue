@@ -50,10 +50,12 @@ export default {
   data() {
     return {
       songs: [],
+      maxPerPage: 5,
+      pendingRequest: false,
     };
   },
   async created() {
-    this.getSongs();
+    this.getSongs(this.maxPerPage);
 
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -68,15 +70,28 @@ export default {
       const bottomOfView = Math.round(scrollTop) + innerHeight === offsetHeight;
 
       if (bottomOfView) {
-        console.log('Bottom of window');
+        const numberOfSongs = this.songs.length;
+
+        if (numberOfSongs > 0) {
+          const lastSongIdx = this.songs[numberOfSongs - 1].docId;
+          this.getSongs(this.maxPerPage, lastSongIdx);
+        } else {
+          this.getSongs(this.maxPerPage);
+        }
       }
     },
-    async getSongs() {
-      const snapshots = await firebase.getAllSongs();
+    async getSongs(maxPerPage, lastSongIdx) {
+      if (this.pendingRequest) return;
+
+      this.pendingRequest = true;
+
+      const snapshots = await firebase.getAllSongs(maxPerPage, lastSongIdx);
 
       snapshots.forEach(document => {
         this.songs.push({ docId: document.id, ...document.data() });
       });
+
+      this.pendingRequest = false;
     },
   },
 };

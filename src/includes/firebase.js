@@ -15,8 +15,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -107,9 +110,31 @@ const getPublicUrl = async fileRef => {
   return await getDownloadURL(fileRef);
 };
 
-// Retrieve all Song Documetns
-const getAllSongs = async () => {
-  const q = query(collection(db, 'songs'));
+// Retrieve all Song Documents, with or without Pagination
+const getAllSongs = async (pageSize, lastDocId) => {
+  let q = query(collection(db, 'songs'));
+
+  // Pagination with page size and the index of the last document
+  if (pageSize) {
+    if (lastDocId) {
+      const lastSongRef = doc(db, 'songs', lastDocId);
+      const lastSongDoc = await getDoc(lastSongRef);
+
+      q = query(
+        collection(db, 'songs'),
+        orderBy('modified_name'),
+        startAfter(lastSongDoc),
+        limit(pageSize)
+      );
+    } else {
+      q = query(
+        collection(db, 'songs'),
+        orderBy('modified_name'),
+        limit(pageSize)
+      );
+    }
+  }
+
   return await getDocs(q);
 };
 
