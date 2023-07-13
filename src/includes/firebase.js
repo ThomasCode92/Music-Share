@@ -144,6 +144,12 @@ const getUserSongs = async userId => {
   return await getDocs(q);
 };
 
+// Retrieve a Song Document by a given SongId
+const getSong = async songId => {
+  const docRef = doc(db, 'songs', songId);
+  return await getDoc(docRef);
+};
+
 // Update a Song Document in the Songs Collection
 const updateSong = async (songId, newName, newGenre) => {
   const songDoc = doc(db, 'songs', songId);
@@ -169,6 +175,7 @@ export default {
   onAuthStateChangedListener,
   getAllSongs,
   getPublicUrl,
+  getSong,
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
