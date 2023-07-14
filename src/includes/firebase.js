@@ -75,6 +75,12 @@ const createSongsDocument = async song => {
   return await getDoc(songDocRef);
 };
 
+// Add a new document in Collection "comments"
+const createCommentDocument = async comment => {
+  const commentsCollection = collection(db, 'comments');
+  await addDoc(commentsCollection, comment);
+};
+
 // Register a User with Email and Password
 const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -169,6 +175,7 @@ const deleteSong = async song => {
 
 export default {
   createAuthUserWithEmailAndPassword,
+  createCommentDocument,
   createSongsDocument,
   createUserDocument,
   deleteSong,
