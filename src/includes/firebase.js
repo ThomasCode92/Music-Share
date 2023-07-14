@@ -144,6 +144,12 @@ const getAllSongs = async (pageSize, lastDocId) => {
   return await getDocs(q);
 };
 
+// Retrieve all Comment Documents for a given SongId
+const getSongComments = async songId => {
+  const q = query(collection(db, 'comments'), where('songId', '==', songId));
+  return await getDocs(q);
+};
+
 // Retrieve all Song Documents for a given UserId
 const getUserSongs = async userId => {
   const q = query(collection(db, 'songs'), where('userId', '==', userId));
@@ -183,6 +189,7 @@ export default {
   getAllSongs,
   getPublicUrl,
   getSong,
+  getSongComments,
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
