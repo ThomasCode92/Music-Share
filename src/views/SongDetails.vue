@@ -119,6 +119,13 @@ export default {
       });
     },
   },
+  watch: {
+    sort(newValue) {
+      this.$router.push({
+        query: { sort: newValue },
+      });
+    },
+  },
   async created() {
     const songDoc = await firebase.getSong(this.$route.params.id);
 
