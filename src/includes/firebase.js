@@ -171,6 +171,14 @@ const updateSong = async (songId, newName, newGenre) => {
   });
 };
 
+// Update the Comment Count of a Song
+const updateCommentCount = async (songId, commentCount) => {
+  const songDoc = doc(db, 'songs', songId);
+  await updateDoc(songDoc, {
+    comment_count: commentCount,
+  });
+};
+
 // Delete a Song Document in the Songs Collection & Remove it from the File Storage
 const deleteSong = async song => {
   const songDoc = doc(db, 'songs', song.docId);
@@ -193,6 +201,7 @@ export default {
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
+  updateCommentCount,
   updateSong,
   updateUserProfile,
   uploadFile,
