@@ -121,6 +121,9 @@ export default {
   },
   watch: {
     sort(newValue) {
+      const { sort } = this.$route.query;
+      if (newValue === sort) return;
+
       this.$router.push({
         query: { sort: newValue },
       });
@@ -132,6 +135,9 @@ export default {
     if (!songDoc.exists()) {
       return this.$router.push({ name: 'home' });
     }
+
+    const { sort } = this.$route.query;
+    this.sort = sort === '1' || sort === '2' ? sort : '1';
 
     const song = songDoc.data();
     this.song = song;
