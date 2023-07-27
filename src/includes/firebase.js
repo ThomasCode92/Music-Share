@@ -15,8 +15,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -72,6 +75,12 @@ const createSongsDocument = async song => {
   return await getDoc(songDocRef);
 };
 
+// Add a new document in Collection "comments"
+const createCommentDocument = async comment => {
+  const commentsCollection = collection(db, 'comments');
+  await addDoc(commentsCollection, comment);
+};
+
 // Register a User with Email and Password
 const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -107,10 +116,50 @@ const getPublicUrl = async fileRef => {
   return await getDownloadURL(fileRef);
 };
 
+// Retrieve all Song Documents, with or without Pagination
+const getAllSongs = async (pageSize, lastDocId) => {
+  let q = query(collection(db, 'songs'));
+
+  // Pagination with page size and the index of the last document
+  if (pageSize) {
+    if (lastDocId) {
+      const lastSongRef = doc(db, 'songs', lastDocId);
+      const lastSongDoc = await getDoc(lastSongRef);
+
+      q = query(
+        collection(db, 'songs'),
+        orderBy('modified_name'),
+        startAfter(lastSongDoc),
+        limit(pageSize)
+      );
+    } else {
+      q = query(
+        collection(db, 'songs'),
+        orderBy('modified_name'),
+        limit(pageSize)
+      );
+    }
+  }
+
+  return await getDocs(q);
+};
+
+// Retrieve all Comment Documents for a given SongId
+const getSongComments = async songId => {
+  const q = query(collection(db, 'comments'), where('songId', '==', songId));
+  return await getDocs(q);
+};
+
 // Retrieve all Song Documents for a given UserId
 const getUserSongs = async userId => {
   const q = query(collection(db, 'songs'), where('userId', '==', userId));
   return await getDocs(q);
+};
+
+// Retrieve a Song Document by a given SongId
+const getSong = async songId => {
+  const docRef = doc(db, 'songs', songId);
+  return await getDoc(docRef);
 };
 
 // Update a Song Document in the Songs Collection
@@ -119,6 +168,14 @@ const updateSong = async (songId, newName, newGenre) => {
   await updateDoc(songDoc, {
     modified_name: newName,
     genre: newGenre,
+  });
+};
+
+// Update the Comment Count of a Song
+const updateCommentCount = async (songId, commentCount) => {
+  const songDoc = doc(db, 'songs', songId);
+  await updateDoc(songDoc, {
+    comment_count: commentCount,
   });
 };
 
@@ -132,14 +189,19 @@ const deleteSong = async song => {
 
 export default {
   createAuthUserWithEmailAndPassword,
+  createCommentDocument,
   createSongsDocument,
   createUserDocument,
   deleteSong,
   onAuthStateChangedListener,
+  getAllSongs,
   getPublicUrl,
+  getSong,
+  getSongComments,
   getUserSongs,
   signInAuthUserWithEmailAndPassword,
   singOutAuthUser,
+  updateCommentCount,
   updateSong,
   updateUserProfile,
   uploadFile,
