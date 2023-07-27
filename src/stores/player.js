@@ -9,6 +9,7 @@ export default defineStore('player', {
     sound: {},
     seek: '00:00',
     duration: '00:00',
+    playerProgress: '0%',
   }),
   getters: {
     playing: state => {
@@ -19,6 +20,10 @@ export default defineStore('player', {
   },
   actions: {
     async newSong(song) {
+      if (this.sound instanceof Howl) {
+        this.sound.unload();
+      }
+
       this.current_song = song;
 
       this.sound = new Howl({
@@ -43,6 +48,10 @@ export default defineStore('player', {
     progress() {
       this.seek = formatTime(this.sound.seek());
       this.duration = formatTime(this.sound.duration());
+
+      this.playerProgress = `${
+        (this.sound.seek() / this.sound.duration()) * 100
+      }%`;
 
       if (this.sound.playing()) {
         requestAnimationFrame(this.progress);
