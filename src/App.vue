@@ -1,19 +1,19 @@
 <template>
-  <app-header />
+  <main-header />
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
       <component :is="Component"></component>
     </transition>
   </router-view>
   <music-player />
-  <app-auth />
+  <auth-modal />
 </template>
 
 <script>
 import { mapWritableState } from 'pinia';
 
-import AppHeader from './components/AppHeader.vue';
-import AppAuth from './components/AppAuth.vue';
+import MainHeader from './components/MainHeader.vue';
+import AuthModal from './components/AuthModal.vue';
 import MusicPlayer from './components/MusicPlayer.vue';
 
 import firebase from './includes/firebase';
@@ -21,7 +21,7 @@ import useUserStore from './stores/user';
 
 export default {
   name: 'App',
-  components: { AppHeader, AppAuth, MusicPlayer },
+  components: { MainHeader, AuthModal, MusicPlayer },
   computed: {
     ...mapWritableState(useUserStore, ['userLoggedIn', 'currentUser']),
   },
