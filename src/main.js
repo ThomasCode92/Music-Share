@@ -7,6 +7,7 @@ import './assets/main.css';
 
 import VeeValidatePlugin from './includes/validation';
 import firebase from './includes/firebase';
+import Icon from './directives/icon';
 import router from './router';
 
 let vueApp;
@@ -20,6 +21,8 @@ firebase.onAuthStateChangedListener(() => {
     app.use(pinia);
     app.use(VeeValidatePlugin);
     app.use(router);
+
+    app.directive('icon', Icon);
 
     app.mount('#app');
 
