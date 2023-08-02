@@ -7,6 +7,7 @@ import './assets/main.css';
 
 import VeeValidatePlugin from './includes/validation';
 import firebase from './includes/firebase';
+import i18n from './includes/i18n';
 import Icon from './directives/icon';
 import router from './router';
 
@@ -21,6 +22,7 @@ firebase.onAuthStateChangedListener(() => {
     app.use(pinia);
     app.use(VeeValidatePlugin);
     app.use(router);
+    app.use(i18n);
 
     app.directive('icon', Icon);
 
