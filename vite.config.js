@@ -9,6 +9,17 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: { enabled: true },
+      manifest: {
+        name: 'Music Share',
+        theme_color: '#ff5e3a',
+        icons: [
+          {
+            src: 'assets/img/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+        ],
+      },
     }),
   ],
 });
