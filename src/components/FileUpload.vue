@@ -71,6 +71,17 @@ export default {
       [...files].forEach(file => {
         if (file.type !== 'audio/mpeg') return;
 
+        if (!navigator.onLine) {
+          return this.uploads.push({
+            task: {},
+            current_progress: 100,
+            name: file.name,
+            variant: 'bg-red-400',
+            icon: 'fas fa-times',
+            text_class: 'text-red-400',
+          });
+        }
+
         const uploadTask = firebase.uploadFile('songs', file);
 
         const arrayLength = this.uploads.push({
