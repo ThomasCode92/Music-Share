@@ -14,7 +14,7 @@ import {
   doc,
   getDoc,
   getDocs,
-  getFirestore,
+  initializeFirestore,
   limit,
   orderBy,
   query,
@@ -22,6 +22,7 @@ import {
   startAfter,
   updateDoc,
   where,
+  persistentLocalCache,
 } from 'firebase/firestore';
 import {
   deleteObject,
@@ -44,7 +45,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(firebaseApp);
+const db = initializeFirestore(firebaseApp, {
+  localCache: persistentLocalCache(),
+});
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(firebaseApp);
