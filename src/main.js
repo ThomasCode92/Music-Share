@@ -6,6 +6,7 @@ import App from './App.vue';
 import './assets/base.css';
 import './assets/main.css';
 
+import GlobalComponents from './includes/_globals';
 import VeeValidatePlugin from './includes/validation';
 import firebase from './includes/firebase';
 import i18n from './includes/i18n';
@@ -26,6 +27,7 @@ firebase.onAuthStateChangedListener(() => {
     app.use(VeeValidatePlugin);
     app.use(router);
     app.use(i18n);
+    app.use(GlobalComponents);
 
     app.directive('icon', Icon);
 
