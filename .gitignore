@@ -15,6 +15,9 @@ dev-dist
 
 .env
 
+# Rollup Visualizer
+stats.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

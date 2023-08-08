@@ -105,6 +105,23 @@ import usePlayerStore from '../stores/player';
 
 export default {
   name: 'SongDetails',
+  async beforeRouteEnter(to, from, next) {
+    const songDoc = await firebase.getSong(to.params.id);
+
+    next(vm => {
+      if (!songDoc.exists()) {
+        return vm.$router.push({ name: 'home' });
+      }
+
+      const { sort } = vm.$route.query;
+      vm.sort = sort === '1' || sort === '2' ? sort : '1';
+
+      const song = songDoc.data();
+      vm.song = song;
+
+      vm.getComments();
+    });
+  },
   data() {
     return {
       song: {},
@@ -141,21 +158,6 @@ export default {
         query: { sort: newValue },
       });
     },
-  },
-  async created() {
-    const songDoc = await firebase.getSong(this.$route.params.id);
-
-    if (!songDoc.exists()) {
-      return this.$router.push({ name: 'home' });
-    }
-
-    const { sort } = this.$route.query;
-    this.sort = sort === '1' || sort === '2' ? sort : '1';
-
-    const song = songDoc.data();
-    this.song = song;
-
-    this.getComments();
   },
   methods: {
     ...mapActions(usePlayerStore, ['newSong', 'toggleAudio']),
