@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 
 export default {
   install(app) {
@@ -11,7 +12,7 @@ export default {
         .split('/')
         .pop()
         .replace(/\.\w+$/, '');
-      const componentName = _.upperFirst(_.camelCase(filename));
+      const componentName = upperFirst(camelCase(filename));
 
       // export default
       app.component(componentName, module.default);
