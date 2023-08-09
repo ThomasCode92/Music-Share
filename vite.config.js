@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -25,4 +27,9 @@ export default defineConfig({
       },
     }),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    exclude: ['**/node_modules/**'],
+  },
 });

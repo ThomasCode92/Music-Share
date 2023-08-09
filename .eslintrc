@@ -2,6 +2,13 @@
   "env": { "node": true },
   "extends": ["eslint:recommended", "plugin:vue/vue3-recommended", "prettier"],
   "plugins": ["prettier"],
+  "overrides": [
+    {
+      "files": ["src/components/__tests__/***.spec.js"],
+      "extends": ["plugin:vitest/recommended"],
+      "env": { "jest": true }
+    }
+  ],
   "rules": {
     "prettier/prettier": "warn"
   }
