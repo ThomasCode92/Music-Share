@@ -1,9 +1,11 @@
 const HomePage = () => import('../views/HomePage.vue');
+const AboutPage = () => import('../views/AboutPage.vue');
 const ManageMusic = () => import('../views/ManageMusic.vue');
 const SongDetails = () => import('../views/SongDetails.vue');
 
 const routes = [
   { path: '/', name: 'home', component: HomePage },
+  { path: '/about', name: 'about', component: AboutPage },
   { path: '/manage', redirect: { name: 'manage' } },
   {
     path: '/manage-music',
