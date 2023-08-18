@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 
 import HomePage from '../../views/HomePage.vue';
@@ -10,10 +11,15 @@ describe('HomePage.vue', () => {
       data() {
         return { songs };
       },
+      global: { mocks: { $t: message => message } },
     });
 
     const items = component.findAllComponents(SongItem);
 
     expect(items).toHaveLength(songs.length);
+
+    items.forEach((wrapper, idx) => {
+      expect(wrapper.props().song).toStrictEqual(songs[idx]);
+    });
   });
 });
