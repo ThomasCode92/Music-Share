@@ -29,6 +29,8 @@ export default defineStore('user', {
         values.email,
         values.password
       );
+
+      this.userLoggedIn = true;
     },
     async signOut() {
       await firebase.singOutAuthUser();
