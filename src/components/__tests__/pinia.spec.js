@@ -1,7 +1,11 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
 
 import useUserStore from '../../stores/user';
+
+vi.mock('../../includes/firebase', () => ({
+  default: { signInAuthUserWithEmailAndPassword: () => Promise.resolve() },
+}));
 
 describe('stores', () => {
   beforeEach(() => {
