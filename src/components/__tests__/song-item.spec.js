@@ -32,3 +32,21 @@ describe('SongItem.vue', () => {
     expect(wrapper.attributes().id).toBe(`song-id-${song.docId}`);
   });
 });
+
+describe('Router', () => {
+  test('should render router link', () => {
+    const song = { docId: 'abc' };
+
+    const wrapper = shallowMount(SongItem, {
+      propsData: { song },
+      global: {
+        components: { 'router-link': RouterLinkStub },
+      },
+    });
+
+    expect(wrapper.findComponent(RouterLinkStub).props().to).toEqual({
+      name: 'song',
+      params: { id: song.docId },
+    });
+  });
+});
