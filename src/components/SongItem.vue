@@ -1,11 +1,12 @@
 <template>
   <li
+    :id="`song-id-${song.docId}`"
     class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
   >
     <div>
       <router-link
         :to="{ name: 'song', params: { id: song.docId } }"
-        class="font-bold block text-gray-600"
+        class="font-bold block text-gray-600 composition-name"
       >
         {{ song.modified_name }}
       </router-link>

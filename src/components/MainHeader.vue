@@ -31,6 +31,11 @@
               </router-link>
             </li>
             <li>
+              <router-link class="px-2 text-white" :to="{ name: 'about' }">
+                About
+              </router-link>
+            </li>
+            <li>
               <a class="px-2 text-white" href="#" @click.prevent="signOut()">
                 Logout
               </a>
