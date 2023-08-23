@@ -4,6 +4,10 @@
   "plugins": ["prettier"],
   "overrides": [
     {
+      "files": ["cypress/e2e/**.{cy,spec}.{js,ts,jsx,tsx}"],
+      "extends": ["plugin:cypress/recommended"]
+    },
+    {
       "files": ["src/components/__tests__/***.spec.js"],
       "extends": ["plugin:vitest/recommended"],
       "env": { "jest": true }
